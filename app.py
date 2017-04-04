@@ -1,15 +1,15 @@
 from flask import Flask, render_template, json, request
-from flask.ext.mysql import MySQL
+from flaskext.mysql import MySQL 
 from werkzeug import generate_password_hash, check_password_hash
 
 mysql = MySQL()
 app = Flask(__name__)
 
 # MySQL configurations
-app.config['MYSQL_DATABASE_USER'] = 'jay'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'jay'
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_DB'] = 'BucketList'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_HOST'] = '0.0.0.0'
 mysql.init_app(app)
 
 
@@ -17,11 +17,17 @@ mysql.init_app(app)
 def main():
     return render_template('index.html')
 
+@app.route('/showHome')
+def showHome():
+    return render_template('index.html')
+
 @app.route('/showSignUp')
 def showSignUp():
     return render_template('signup.html')
 
-
+@app.route('/showSignIn')
+def showSignIn():
+    return render_template('signin.html')
 @app.route('/signUp',methods=['POST','GET'])
 def signUp():
     try:
@@ -55,4 +61,4 @@ def signUp():
         conn.close()
 
 if __name__ == "__main__":
-    app.run(port=5002)
+    app.run(host='0.0.0.0',port=5002)
